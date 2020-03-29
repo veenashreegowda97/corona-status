@@ -37,9 +37,7 @@ export default class FinalComponent extends Component {
       .catch(function(error) {
         console.log(error);
       })
-      .finally(function() {
-        // always executed
-      });
+      .finally(function() {});
 
     axios
       .get("https://api.covid19api.com/all")
@@ -56,9 +54,7 @@ export default class FinalComponent extends Component {
       .catch(function(error) {
         console.log(error);
       })
-      .finally(function() {
-        // always executed
-      });
+      .finally(function() {});
   }
   getDataBasedOnCountry = () => {
     let resultSet = [...this.state.dataResult];

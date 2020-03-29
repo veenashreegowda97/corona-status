@@ -1,4 +1,49 @@
 .card {
-  width: 25%;
-  border-radius: 1.25rem;
+  border-radius: 1rem !important;
+  width: 230px !important;
+}
+
+.card-wrapper {
+  margin: 22px;
+}
+.card-text {
+  text-align: center;
+}
+.userIcon-wrapper {
+  text-align: center;
+  font-size: 25px;
+}
+.card-title {
+  text-align: center;
+}
+
+.red {
+  color: #e50830;
+}
+.blue {
+  color: #1037a9;
+}
+
+.yellow {
+  color: #cf9f3a;
+}
+.green {
+  color: #0e741b;
+}
+
+@media screen and (max-width: 768px) {
+  .card-wrapper {
+    margin: 0 0 0.5rem 0;
+  }
+  .card {
+    width: 152px !important;
+    min-height: 12rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+  .pie-wrapper {
+    margin: 0;
+  }
 }

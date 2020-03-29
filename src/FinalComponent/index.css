@@ -1,0 +1,118 @@
+.dashboard-wrapper {
+  background-color: #f2f2f2;
+  height: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.main-wrapper {
+  display: flex;
+  height: 100%;
+  flex: 1;
+}
+.left-wrapper {
+  border: 2px solid #3d358b;
+  display: flex;
+  flex-direction: column;
+  background-color: #3d358b;
+  color: white;
+  width: 20%;
+}
+
+.right-wrapper {
+  display: flex;
+  width: 85%;
+  flex-direction: column;
+  flex: 1;
+}
+.rightWrapper-secondRow {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.leftWrapper-covid-wrapper {
+  display: flex;
+  background-color: #382f82;
+  padding: 15px;
+  align-items: center;
+}
+
+.home {
+  color: #cf9f3a;
+  font-size: 20px;
+}
+.dashboardContent-wrapper {
+  margin-left: 10px;
+}
+.border-spacing {
+  padding: 10px;
+}
+.leftWrapper-dashboard-wrapper {
+  display: flex;
+  background-color: #382f82;
+  flex-direction: column;
+}
+.dashboard-title-wrapper {
+  margin-left: 5px;
+  padding: 10px;
+}
+.overview-wrapper {
+  margin-top: 15px;
+  font-size: 25px;
+  margin-left: 2.2rem;
+}
+.rightWrapper-firstRow {
+  display: flex;
+}
+.dropdown-wrapper {
+  margin-top: 15px;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  margin-right: 6rem;
+}
+.rightWrapper-thirdRow {
+  margin-top: 45px;
+  margin-left: 23px;
+  margin-right: 23px;
+  display: flex;
+  flex: 1;
+}
+.pie-wrapper {
+  margin-right: 15px;
+}
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.header-wrapper {
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .left-wrapper {
+    display: none;
+  }
+  .rightWrapper-secondRow {
+    justify-content: space-around;
+  }
+  .rightWrapper-firstRow {
+    margin-bottom: 1rem;
+    margin-top: 2.5rem;
+  }
+  .rightWrapper-thirdRow {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .header-wrapper {
+    background-color: #382f82;
+    color: white;
+    padding: 0.7rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    display: flex;
+  }
+}

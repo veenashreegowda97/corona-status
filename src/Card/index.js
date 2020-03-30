@@ -5,6 +5,7 @@ import "font-awesome/css/font-awesome.css";
 
 function Cards(props) {
   let name = `userIcon-wrapper ${props.colour}`;
+  let data = `${props.count}  [+${props.new}]`;
   return (
     <div className="card-wrapper">
       <Card>
@@ -14,7 +15,7 @@ function Cards(props) {
           </div>
 
           <CardTitle>{props.title}</CardTitle>
-          <CardText>{props.count}</CardText>
+          <CardText className={props.colour}>{data}</CardText>
         </CardBody>
       </Card>
     </div>

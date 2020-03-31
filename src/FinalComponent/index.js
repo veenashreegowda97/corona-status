@@ -121,6 +121,10 @@ export default class FinalComponent extends Component {
     ];
     return (
       <div className="dashboard-wrapper">
+        <div className="header-wrapper">
+          <div className="fa fa-asterisk home"></div>
+          <div className="dashboardContent-wrapper">COVID-19</div>
+        </div>
         <div className="main-wrapper">
           <div className="left-wrapper">
             <div className="leftWrapper-covid-wrapper">
@@ -133,11 +137,6 @@ export default class FinalComponent extends Component {
             </div>
           </div>
           <div className="right-wrapper">
-            <div className="header-wrapper">
-              <div className="fa fa-asterisk home"></div>
-              <div className="dashboardContent-wrapper">COVID-19</div>
-            </div>
-
             {this.state.isFetching ? (
               <div className="spinner-wrapper">
                 <Spinner type="grow" color="primary" />

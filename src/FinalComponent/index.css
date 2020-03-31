@@ -115,4 +115,7 @@
     z-index: 1;
     display: flex;
   }
+  .main-wrapper {
+    overflow: auto;
+  }
 }

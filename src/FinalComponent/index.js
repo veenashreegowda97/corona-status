@@ -18,12 +18,16 @@ export default class FinalComponent extends Component {
     confirmedCount: 0,
     recoveredCount: 0,
     deathCount: 0,
+    newConfirm: 0,
+    newRecover: 0,
+    newDeath: 0,
     totalCount: 0,
+    newtotal: 0,
     isFetching: true
   };
   handleCountryList = e => {
     this.setState({ dropdownValue: e.target.innerHTML }, () => {
-      this.getTotalData();
+      this.getDataBasedOnCountry();
     });
   };
   componentDidMount() {
@@ -38,16 +42,15 @@ export default class FinalComponent extends Component {
         console.log(error);
       })
       .finally(function() {});
-
     axios
-      .get("https://api.covid19api.com/all")
+      .get("https://api.covid19api.com/summary")
       .then(response => {
         this.setState(
           {
-            dataResult: response.data
+            dataResult: response.data.Countries
           },
           () => {
-            this.getTotalData();
+            this.getDataBasedOnCountry();
           }
         );
       })
@@ -58,59 +61,35 @@ export default class FinalComponent extends Component {
   }
   getDataBasedOnCountry = () => {
     let resultSet = [...this.state.dataResult];
-    let countryArr = [];
-    var startdate = moment()
-      .subtract(1, "days")
-      .format("YYYY-MM-DD");
-    resultSet.map(dataElement => {
-      if (
-        dataElement.Country === `${this.state.dropdownValue}` &&
-        dataElement.Date === `${startdate}T00:00:00Z`
-      ) {
-        countryArr.push(dataElement);
+    let {
+      confirmedCount,
+      recoveredCount,
+      deathCount,
+      newConfirm,
+      newDeath,
+      newRecover
+    } = this.state;
+    return resultSet.map(dataElement => {
+      if (dataElement.Country === `${this.state.dropdownValue}`) {
+        this.setState({
+          confirmedCount: dataElement.TotalConfirmed,
+          recoveredCount: dataElement.TotalRecovered,
+          deathCount: dataElement.TotalDeaths,
+          newConfirm: dataElement.NewConfirmed,
+          newDeath: dataElement.NewDeaths,
+          newRecover: dataElement.NewRecovered,
+          totalCount:
+            dataElement.TotalConfirmed +
+            dataElement.TotalRecovered +
+            dataElement.TotalDeaths,
+          newtotal:
+            dataElement.NewConfirmed +
+            dataElement.NewDeaths +
+            dataElement.NewRecovered,
+          isFetching: false
+        });
       }
     });
-    return countryArr;
-  };
-  getCountryData = inputArr => {
-    let confirmCase = 0;
-    let recoverCase = 0;
-    let deathCase = 0;
-    let totalCase = 0;
-    if (inputArr.length === 3) {
-      inputArr.map(countryElement => {
-        if (countryElement.Status === "confirmed") {
-          confirmCase = countryElement.Cases;
-        } else if (countryElement.Status === "recovered") {
-          recoverCase = countryElement.Cases;
-        } else if (countryElement.Status === "deaths") {
-          deathCase = countryElement.Cases;
-        }
-      });
-      totalCase = confirmCase + recoverCase + deathCase;
-    } else {
-      inputArr.map(countryElement => {
-        if (countryElement.Status === "confirmed") {
-          confirmCase += Number(countryElement.Cases);
-        } else if (countryElement.Status === "recovered") {
-          recoverCase += Number(countryElement.Cases);
-        } else if (countryElement.Status === "deaths") {
-          deathCase += Number(countryElement.Cases);
-        }
-      });
-      totalCase = confirmCase + recoverCase + deathCase;
-    }
-    this.setState({
-      confirmedCount: confirmCase,
-      recoveredCount: recoverCase,
-      deathCount: deathCase,
-      totalCount: totalCase,
-      isFetching: false
-    });
-  };
-  getTotalData = () => {
-    let firstResult = this.getDataBasedOnCountry();
-    this.getCountryData(firstResult);
   };
 
   render() {
@@ -142,6 +121,10 @@ export default class FinalComponent extends Component {
     ];
     return (
       <div className="dashboard-wrapper">
+        <div className="header-wrapper">
+          <div className="fa fa-asterisk home"></div>
+          <div className="dashboardContent-wrapper">COVID-19</div>
+        </div>
         <div className="main-wrapper">
           <div className="left-wrapper">
             <div className="leftWrapper-covid-wrapper">
@@ -154,11 +137,6 @@ export default class FinalComponent extends Component {
             </div>
           </div>
           <div className="right-wrapper">
-            <div className="header-wrapper">
-              <div className="fa fa-asterisk home"></div>
-              <div className="dashboardContent-wrapper">COVID-19</div>
-            </div>
-
             {this.state.isFetching ? (
               <div className="spinner-wrapper">
                 <Spinner type="grow" color="primary" />
@@ -183,6 +161,7 @@ export default class FinalComponent extends Component {
                     <Cards
                       title="Total Confirmed Cases"
                       count={this.state.confirmedCount}
+                      new={this.state.newConfirm}
                       colour={confirmColor}
                     />
                   </div>
@@ -190,6 +169,7 @@ export default class FinalComponent extends Component {
                     <Cards
                       title="Total Death Cases"
                       count={this.state.deathCount}
+                      new={this.state.newDeath}
                       colour={deathColor}
                     />
                   </div>
@@ -197,13 +177,15 @@ export default class FinalComponent extends Component {
                     <Cards
                       title="Total Recovered Cases"
                       count={this.state.recoveredCount}
+                      new={this.state.newRecover}
                       colour={recoverColor}
                     />
                   </div>
                   <div>
                     <Cards
-                      title="Total Count"
+                      title="Total Cases"
                       count={this.state.totalCount}
+                      new={this.state.newtotal}
                       colour={totalColor}
                     />
                   </div>

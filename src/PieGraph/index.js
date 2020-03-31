@@ -20,8 +20,8 @@ function PieGraph(props) {
   return (
     <ReactFusioncharts
       type="pie2d"
-      width={window.screen.width > 768 ? "40%" : "100%"}
-      height={window.screen.width > 768 ? "45%" : "80%"}
+      width="100%"
+      height="50%"
       dataFormat="JSON"
       dataSource={dataSource}
     />

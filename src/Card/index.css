@@ -2,10 +2,10 @@
   border-radius: 1rem !important;
   width: 230px !important;
 }
-
+/* 
 .card-wrapper {
   margin: 22px;
-}
+} */
 .card-text {
   text-align: center;
 }
@@ -42,8 +42,5 @@
 
   .card-body {
     padding: 1rem;
-  }
-  .pie-wrapper {
-    margin: 0;
   }
 }

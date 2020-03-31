@@ -4,7 +4,6 @@ import Cards from "../Card";
 import "font-awesome/css/font-awesome.css";
 import Dropdown from "../Dropdown";
 import axios from "axios";
-import moment from "moment";
 import PieGraph from "../PieGraph";
 import * as utils from "../utils/utils";
 import BarGraph from "../BarGraph";

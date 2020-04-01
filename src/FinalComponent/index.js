@@ -3,11 +3,11 @@ import "./index.css";
 import Cards from "../Card";
 import "font-awesome/css/font-awesome.css";
 import Dropdown from "../Dropdown";
-import axios from "axios";
 import PieGraph from "../PieGraph";
 import * as utils from "../utils/utils";
 import BarGraph from "../BarGraph";
 import { Spinner } from "reactstrap";
+import { countryList, coronaSummary } from "../Api/index";
 
 export default class FinalComponent extends Component {
   state = {
@@ -30,45 +30,25 @@ export default class FinalComponent extends Component {
     });
   };
   componentDidMount() {
-    axios
-      .get("https://api.covid19api.com/countries")
-      .then(response => {
-        this.setState({
-          countryResult: response.data
-        });
-      })
-      .catch(function(error) {
-        console.log(error);
-      })
-      .finally(function() {});
-    axios
-      .get("https://api.covid19api.com/summary")
-      .then(response => {
-        this.setState(
-          {
-            dataResult: response.data.Countries
-          },
-          () => {
-            this.getDataBasedOnCountry();
-          }
-        );
-      })
-      .catch(function(error) {
-        console.log(error);
-      })
-      .finally(function() {});
+    countryList().then(res => {
+      this.setState({
+        countryResult: res.data
+      });
+    });
+    coronaSummary().then(res => {
+      this.setState(
+        {
+          dataResult: res.data.Countries
+        },
+        () => {
+          this.getDataBasedOnCountry();
+        }
+      );
+    });
   }
   getDataBasedOnCountry = () => {
     let resultSet = [...this.state.dataResult];
-    let {
-      confirmedCount,
-      recoveredCount,
-      deathCount,
-      newConfirm,
-      newDeath,
-      newRecover
-    } = this.state;
-    return resultSet.map(dataElement => {
+    resultSet.forEach(dataElement => {
       if (dataElement.Country === `${this.state.dropdownValue}`) {
         this.setState({
           confirmedCount: dataElement.TotalConfirmed,
@@ -91,19 +71,22 @@ export default class FinalComponent extends Component {
     });
   };
 
-  render() {
-    let confirmColor, recoverColor, deathColor, totalColor;
-    utils.casesColor.map(colorElement => {
+  getColors = () => {
+    let obj = {};
+    utils.casesColor.forEach(colorElement => {
       if (colorElement.name === "Confirmed") {
-        confirmColor = colorElement.colour;
+        obj.confirmColor = colorElement.colour;
       } else if (colorElement.name === "Death") {
-        deathColor = colorElement.colour;
+        obj.deathColor = colorElement.colour;
       } else if (colorElement.name === "Recovered") {
-        recoverColor = colorElement.colour;
+        obj.recoverColor = colorElement.colour;
       } else if (colorElement.name === "Total") {
-        totalColor = colorElement.colour;
+        obj.totalColor = colorElement.colour;
       }
     });
+    return obj;
+  };
+  getGraphData = () => {
     let graphdata = [
       {
         label: "Confirmed",
@@ -118,6 +101,12 @@ export default class FinalComponent extends Component {
         value: this.state.deathCount
       }
     ];
+    return graphdata;
+  };
+
+  render() {
+    let getColorsData = this.getColors();
+    let graphdata = this.getGraphData();
     return (
       <div className="dashboard-wrapper">
         <div className="header-wrapper">
@@ -161,7 +150,7 @@ export default class FinalComponent extends Component {
                       title="Total Confirmed Cases"
                       count={this.state.confirmedCount}
                       new={this.state.newConfirm}
-                      colour={confirmColor}
+                      colour={getColorsData.confirmColor}
                     />
                   </div>
                   <div>
@@ -169,7 +158,7 @@ export default class FinalComponent extends Component {
                       title="Total Death Cases"
                       count={this.state.deathCount}
                       new={this.state.newDeath}
-                      colour={deathColor}
+                      colour={getColorsData.deathColor}
                     />
                   </div>
                   <div>
@@ -177,7 +166,7 @@ export default class FinalComponent extends Component {
                       title="Total Recovered Cases"
                       count={this.state.recoveredCount}
                       new={this.state.newRecover}
-                      colour={recoverColor}
+                      colour={getColorsData.recoverColor}
                     />
                   </div>
                   <div>
@@ -185,7 +174,7 @@ export default class FinalComponent extends Component {
                       title="Total Cases"
                       count={this.state.totalCount}
                       new={this.state.newtotal}
-                      colour={totalColor}
+                      colour={getColorsData.totalColor}
                     />
                   </div>
                 </div>

@@ -1,6 +1,7 @@
 {
   "projects": {
     "default": "covid-19-f0221",
-    "covid-19.staging.com": "covid-19-f0221"
+    "covid-19.staging.com": "covid-19-f0221",
+    "covid-19staging.com": "covid-19-f0221"
   }
 }
